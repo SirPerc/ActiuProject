@@ -1,0 +1,99 @@
+# created with pCon.planner
+
+newmtl mat_alupolis6b0059b8
+Ka 0.75294101 0.75294101 0.75294101
+Kd 0.75294101 0.75294101 0.75294101
+Ks 1 1 1
+Ns 102.4
+illum 2
+
+newmtl mat_blackpol45b058e1
+Ka 0.25 0.25 0.25
+Kd 0.25 0.25 0.25
+Ks 0.02 0.02 0.02
+Ns 90
+illum 2
+
+newmtl mat_chrome313fee04
+Ka 0.68150699 0.68150699 0.68150699
+Kd 0.68150699 0.68150699 0.68150699
+Ks 0.92651802 0.92651802 0.92651802
+Ns 50
+illum 2
+
+newmtl mat_orof5f7e2df
+Ka 0.57300001 0.639 0.329
+Kd 1 1 1
+map_Kd c481d55a.png
+Ks 0 0 0
+Ns 50
+illum 2
+
+newmtl mat_s005ccd4397
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s00804f4877
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s008306d92e
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s00d728828a
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s089a5289a7
+Ka 0.15000001 0.15000001 0.15000001
+Kd 0.15000001 0.15000001 0.15000001
+Ks 0 0 0
+Ns 1
+illum 2
+
+newmtl mat_s2e58d4a69
+Ka 0.75 0.75 0.75
+Kd 0.75 0.75 0.75
+Ks 0.5 0.5 0.5
+Ns 30
+illum 2
+
+newmtl mat_s83766d4f2
+Ka 0.30000001 0.30000001 0.30000001
+Kd 0.30000001 0.30000001 0.30000001
+Ks 0.025 0.025 0.025
+Ns 30
+illum 2
+
+newmtl mat_videoe779f888
+Ka 0 0 0
+Kd 1 1 1
+map_Kd 43e52063.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_whitepol46a0f330
+Ka 0.94 0.94 0.94
+Kd 0.94 0.94 0.94
+Ks 0.02 0.02 0.02
+Ns 1
+illum 2
+
