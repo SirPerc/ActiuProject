@@ -18,41 +18,87 @@ public class CreatePrefabs : MonoBehaviour
 
 
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 		Vector3 v3Position;
 		Quaternion qRotation;
 		Transform auxTransform;
 		FurnitureBehavior furnitureBehavior;
 
 		float fMinX, fMaxX, fMinZ, fMaxZ;
-		
-		m_lCreatedObjects = new List<Transform>();
-		for (int i = 0; i < m_iNumberOfObjects; i++)
+		int j = 0;
+		bool bRepeat = true;
+
+		for (int k = 0; k < 10 && bRepeat; k++)
 		{
-			auxTransform = Transform.Instantiate(m_vListOfPrefabs[i % m_vListOfPrefabs.Length], m_ParentTransform);
-			furnitureBehavior = auxTransform.GetComponent<FurnitureBehavior>();
-			m_lCreatedObjects.Add(auxTransform);
+			bRepeat = false;
+			m_lCreatedObjects = new List<Transform>();
 
-			//Set random rotation
-			qRotation = Quaternion.Euler(0, (float)Random.Range(0, 360), 0);
+			for (int i = 0; i < m_iNumberOfObjects && j < 50; i++)
+			{
+				auxTransform = Transform.Instantiate(m_vListOfPrefabs[i % m_vListOfPrefabs.Length], m_ParentTransform);
+				furnitureBehavior = auxTransform.GetComponent<FurnitureBehavior>();
 
-			auxTransform.SetPositionAndRotation(auxTransform.position, qRotation);
+				j = 0;
 
-			//Set random position but inside the room
-			fMinX = m_fMinX - furnitureBehavior.GetMinX();
-			Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
-			fMaxX = m_fMaxX - furnitureBehavior.GetMaxX();
-			Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
-			fMinZ = m_fMinZ - furnitureBehavior.GetMinZ();
-			Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
-			fMaxZ = m_fMaxZ - furnitureBehavior.GetMaxZ();
-			Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
+				do
+				{
+					//Set random rotation
+					qRotation = Quaternion.Euler(0, (float)Random.Range(0, 360), 0);
+					auxTransform.SetPositionAndRotation(auxTransform.position, qRotation);
 
-			v3Position = new Vector3(Random.Range(fMinX, fMaxX), 0, Random.Range(fMinZ, fMaxZ));
-				
-			auxTransform.SetPositionAndRotation(v3Position, auxTransform.rotation);
+					//Set random position but inside the room
+					fMinX = m_fMinX - furnitureBehavior.GetMinX();
+					Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
+					fMaxX = m_fMaxX - furnitureBehavior.GetMaxX();
+					Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
+					fMinZ = m_fMinZ - furnitureBehavior.GetMinZ();
+					Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
+					fMaxZ = m_fMaxZ - furnitureBehavior.GetMaxZ();
+					Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
+					
+					v3Position = new Vector3(Random.Range(fMinX, fMaxX), 0, Random.Range(fMinZ, fMaxZ));
+					auxTransform.SetPositionAndRotation(v3Position, auxTransform.rotation);
+					j++;
 
-			auxTransform.name = m_vListOfPrefabs[i % m_vListOfPrefabs.Length].name + " " + i / m_vListOfPrefabs.Length;
+				} while (IsIntersect(auxTransform) && j < 50);
+
+				auxTransform.name = m_vListOfPrefabs[i % m_vListOfPrefabs.Length].name + " " + i / m_vListOfPrefabs.Length;
+
+				m_lCreatedObjects.Add(auxTransform);
+			}
+
+			if (j >= 50)
+			{
+				Debug.LogWarning("Nos hemos pasado de iteraciones");
+
+				j = 0;
+				bRepeat = true;
+
+				foreach (Transform tObject in m_lCreatedObjects)
+				{
+					tObject.gameObject.SetActive(false);
+				}
+			}
+
+			if (k >= 9)
+			{
+				Debug.LogWarning("Demasiadas iteraciones generales");
+			}
 		}
+	}
+
+	bool IsIntersect(Transform tCurrentObject)
+	{
+
+		bool bIsIntersect = false;
+
+		foreach (Transform tCompareObject in m_lCreatedObjects)
+		{
+			bIsIntersect |= tCurrentObject.GetComponent<FurnitureBehavior>().IntersectsCollider(tCompareObject.GetComponent<Collider>());
+			Debug.Log(tCurrentObject.name + ": is on " + bIsIntersect + " with " + tCompareObject.name);
+		}
+
+		return bIsIntersect;
 	}
 }
