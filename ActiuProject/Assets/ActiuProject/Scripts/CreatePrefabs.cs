@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class CreatePrefabs : MonoBehaviour
 {
+
+	[SerializeField]
+	GameObject m_LoadingPanel;
+
+	[SerializeField]
+	GameObject m_FinishPanel;
+
 	[SerializeField]
 	Transform[] m_vListOfPrefabs;
 
@@ -23,9 +30,20 @@ public class CreatePrefabs : MonoBehaviour
 		Randomizer();
 	}
 
+	private void Update()
+	{
+		if (!m_LoadingPanel.activeSelf)
+		{
+			if (Input.GetKeyUp(KeyCode.Space))
+			{
+				Randomizer();
+			}
+		}
+	}
+
 	public void Randomizer()
 	{
-		Debug.Log("Randomizer");
+		ShowLoading();
 
 		Vector3 v3Position;
 		Quaternion qRotation;
@@ -100,6 +118,11 @@ public class CreatePrefabs : MonoBehaviour
 				Debug.LogWarning("Demasiadas iteraciones generales");
 			}
 		}
+
+		if (!bRepeat)
+		{
+			ShowFinish();
+		}
 	}
 
 	bool IsIntersect(Transform tCurrentObject)
@@ -116,11 +139,25 @@ public class CreatePrefabs : MonoBehaviour
 		return bIsIntersect;
 	}
 
-	private void Update()
+	void ShowLoading()
 	{
-		if (Input.GetKeyUp(KeyCode.Space))
-		{
-			Randomizer();
-		}
+		Debug.Log("loading");
+		m_LoadingPanel.SetActive(true);
+		m_FinishPanel.SetActive(false);
+	}
+
+	void ShowFinish()
+	{
+		Debug.Log("Finish");
+		m_LoadingPanel.SetActive(false);
+		m_FinishPanel.SetActive(true);
+		StaticVariables.s_bFinish = true;
+	}
+
+	public void HideFinish()
+	{
+		m_LoadingPanel.SetActive(false);
+		m_FinishPanel.SetActive(false);
+		StaticVariables.s_bFinish = false;
 	}
 }
