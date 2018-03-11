@@ -20,6 +20,13 @@ public class CreatePrefabs : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		Randomizer();
+	}
+
+	public void Randomizer()
+	{
+		Debug.Log("Randomizer");
+
 		Vector3 v3Position;
 		Quaternion qRotation;
 		Transform auxTransform;
@@ -29,10 +36,22 @@ public class CreatePrefabs : MonoBehaviour
 		int j = 0;
 		bool bRepeat = true;
 
-		for (int k = 0; k < 10 && bRepeat; k++)
+		for (int k = 0; k < 50 && bRepeat; k++)
 		{
 			bRepeat = false;
-			m_lCreatedObjects = new List<Transform>();
+
+			if (m_lCreatedObjects == null)
+			{
+				m_lCreatedObjects = new List<Transform>();
+			}
+			else
+			{
+				foreach (Transform tObject in m_lCreatedObjects)
+				{
+					tObject.gameObject.SetActive(false);
+				}
+				m_lCreatedObjects.Clear();
+			}
 
 			for (int i = 0; i < m_iNumberOfObjects && j < 50; i++)
 			{
@@ -56,7 +75,7 @@ public class CreatePrefabs : MonoBehaviour
 					Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
 					fMaxZ = m_fMaxZ - furnitureBehavior.GetMaxZ();
 					Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
-					
+
 					v3Position = new Vector3(Random.Range(fMinX, fMaxX), 0, Random.Range(fMinZ, fMaxZ));
 					auxTransform.SetPositionAndRotation(v3Position, auxTransform.rotation);
 					j++;
@@ -74,14 +93,9 @@ public class CreatePrefabs : MonoBehaviour
 
 				j = 0;
 				bRepeat = true;
-
-				foreach (Transform tObject in m_lCreatedObjects)
-				{
-					tObject.gameObject.SetActive(false);
-				}
 			}
 
-			if (k >= 9)
+			if (k >= 49)
 			{
 				Debug.LogWarning("Demasiadas iteraciones generales");
 			}
@@ -100,5 +114,13 @@ public class CreatePrefabs : MonoBehaviour
 		}
 
 		return bIsIntersect;
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyUp(KeyCode.Space))
+		{
+			Randomizer();
+		}
 	}
 }
