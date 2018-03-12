@@ -9,7 +9,6 @@ public class FurnitureBehavior : MonoBehaviour {
 
 	public float GetMinX()
 	{
-		Debug.Log(transform.name + ": position X:" + transform.position.x + " and minX:"+m_collider.bounds.min.x);
 		return m_collider.bounds.min.x - transform.position.x;
 	}
 

@@ -32,6 +32,11 @@ public class CreatePrefabs : MonoBehaviour
 
 	private void Update()
 	{
+		if (Input.GetKeyUp(KeyCode.Escape))
+		{
+			Application.Quit();
+		}
+
 		if (!m_LoadingPanel.activeSelf)
 		{
 			if (Input.GetKeyUp(KeyCode.Space))
@@ -45,6 +50,11 @@ public class CreatePrefabs : MonoBehaviour
 	{
 		ShowLoading();
 
+		Invoke("RandomizerLogic", Time.deltaTime);
+	}
+
+	void RandomizerLogic()
+	{
 		Vector3 v3Position;
 		Quaternion qRotation;
 		Transform auxTransform;
@@ -53,8 +63,8 @@ public class CreatePrefabs : MonoBehaviour
 		float fMinX, fMaxX, fMinZ, fMaxZ;
 		int j = 0;
 		bool bRepeat = true;
-
-		for (int k = 0; k < 50 && bRepeat; k++)
+		
+		do
 		{
 			bRepeat = false;
 
@@ -86,13 +96,9 @@ public class CreatePrefabs : MonoBehaviour
 
 					//Set random position but inside the room
 					fMinX = m_fMinX - furnitureBehavior.GetMinX();
-					Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
 					fMaxX = m_fMaxX - furnitureBehavior.GetMaxX();
-					Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
 					fMinZ = m_fMinZ - furnitureBehavior.GetMinZ();
-					Debug.Log(auxTransform.name + ": fMinxX:" + fMinX);
 					fMaxZ = m_fMaxZ - furnitureBehavior.GetMaxZ();
-					Debug.Log(auxTransform.name + ": fManxZ:" + fMinX);
 
 					v3Position = new Vector3(Random.Range(fMinX, fMaxX), 0, Random.Range(fMinZ, fMaxZ));
 					auxTransform.SetPositionAndRotation(v3Position, auxTransform.rotation);
@@ -107,22 +113,13 @@ public class CreatePrefabs : MonoBehaviour
 
 			if (j >= 50)
 			{
-				Debug.LogWarning("Nos hemos pasado de iteraciones");
-
 				j = 0;
 				bRepeat = true;
 			}
-
-			if (k >= 49)
-			{
-				Debug.LogWarning("Demasiadas iteraciones generales");
-			}
 		}
+		while (bRepeat);
 
-		if (!bRepeat)
-		{
-			ShowFinish();
-		}
+		ShowFinish();
 	}
 
 	bool IsIntersect(Transform tCurrentObject)
@@ -133,7 +130,7 @@ public class CreatePrefabs : MonoBehaviour
 		foreach (Transform tCompareObject in m_lCreatedObjects)
 		{
 			bIsIntersect |= tCurrentObject.GetComponent<FurnitureBehavior>().IntersectsCollider(tCompareObject.GetComponent<Collider>());
-			Debug.Log(tCurrentObject.name + ": is on " + bIsIntersect + " with " + tCompareObject.name);
+			//Debug.Log(tCurrentObject.name + ": is on " + bIsIntersect + " with " + tCompareObject.name);
 		}
 
 		return bIsIntersect;
@@ -141,14 +138,14 @@ public class CreatePrefabs : MonoBehaviour
 
 	void ShowLoading()
 	{
-		Debug.Log("loading");
+		//Debug.Log("loading");
 		m_LoadingPanel.SetActive(true);
 		m_FinishPanel.SetActive(false);
 	}
 
 	void ShowFinish()
 	{
-		Debug.Log("Finish");
+		//Debug.Log("Finish");
 		m_LoadingPanel.SetActive(false);
 		m_FinishPanel.SetActive(true);
 		StaticVariables.s_bFinish = true;
